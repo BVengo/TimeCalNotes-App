@@ -1,0 +1,53 @@
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
+public class Timer 
+{
+	static long timerLength;
+	static long endTime;
+	static long hoursInNano, minsInNano, secsInNano;
+		
+	static Scanner scnr = new Scanner(System.in);
+	
+	public static void main(String[] args)
+	{
+		System.out.print("Hours (0-24): ");
+		hoursInNano = TimeUnit.HOURS.toNanos(scnr.nextInt());
+		
+		System.out.print("Minutes (0-60): ");
+		minsInNano = TimeUnit.MINUTES.toNanos(scnr.nextInt());
+		
+		System.out.print("Seconds (0-60): ");
+		secsInNano = TimeUnit.SECONDS.toNanos(scnr.nextInt());
+				
+		timerLength = hoursInNano + minsInNano+ secsInNano;
+
+		
+		System.out.print("Begin? (y/n)");
+		
+		if (scnr.next().equals("y"))
+		{			
+			System.out.println("Controls: STOP, PAUSE, CONTINUE");
+
+			System.out.println("Start time: 0");
+
+			BeginTimer(timerLength);
+		}
+		else System.out.println("Cancelled timer");
+		
+		
+	}
+	
+	public static void BeginTimer(long timerLength)
+	{
+		
+		long endLength = System.nanoTime() + timerLength;
+		
+		long startTime = System.nanoTime();
+		
+		while (System.nanoTime() < endLength);
+		
+		endTime = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - startTime);
+		
+		System.out.println("End Time: " + endTime);
+	}
+}

@@ -1,0 +1,29 @@
+package TimeCalNotes;
+
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
+
+public class Main 
+{
+	public static int timerLength;
+	public static int hoursInSecs, minsInSecs, secs;
+
+	public static Scanner scnr = new Scanner(System.in);
+	
+	public static void main(String[] args)
+	{
+		System.out.print("Hours (0-24): ");
+		hoursInSecs = TimeUnit.HOURS.toSeconds(scnr.nextInt());
+		
+		System.out.print("Minutes (0-60): ");
+		minsInSecs = TimeUnit.MINUTES.toSeconds(scnr.nextInt());
+		
+		System.out.print("Seconds (0-60): ");
+		secs = scnr.nextInt();
+		
+		timerLength = hoursInSecs + minsInSecs + secs;
+		
+		Timer timer = new Timer(timerLength);
+	}
+
+}
