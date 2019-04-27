@@ -4,27 +4,58 @@ import java.util.concurrent.TimeUnit;
 public class Timer 
 {
 	long timerLength;
-	long endTime;
-	long hoursInNano, minsInNano, secsInNano;
+	
+	long time = 0;
 		
 	Scanner scnr = new Scanner(System.in);
 	
-	public Timer(int length)
+	long hoursComplete = 0;
+	long minsComplete = 0;
+	long secsComplete = 0;
+	
+	public Timer(long length)
 	{
 		timerLength = TimeUnit.SECONDS.toNanos(length);
 	}
 	
 	public void BeginTimer()
 	{
-		
 		long endLength = System.nanoTime() + timerLength;
 		
 		long startTime = System.nanoTime();
 		
-		while (System.nanoTime() < endLength);
+		while (System.nanoTime() <= endLength)
+		{			
+			if ((System.nanoTime() - startTime) % 1_000_000_000 == 0)
+			{	
+				time = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - startTime);
+				
+				IncrementTime(1);
+				
+				System.out.println(hoursComplete + " hours and " + minsComplete + " minutes and " + secsComplete + " seconds");
+
+			}
+		}
 		
-		endTime = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - startTime);
+		IncrementTime(1);
 		
-		System.out.println("End Time: " + endTime);
+		System.out.println(hoursComplete + " hours and " + minsComplete + " minutes and " + secsComplete + " seconds");
+		
+	}
+		
+	public void IncrementTime(long seconds)
+	{
+		secsComplete += 1;
+		if (secsComplete >= 60) 
+		{
+			minsComplete += 1;
+			secsComplete = 0;
+		}
+		
+		if (minsComplete >= 60)
+		{
+			hoursComplete += 1;
+			minsComplete = 0;
+		}
 	}
 }

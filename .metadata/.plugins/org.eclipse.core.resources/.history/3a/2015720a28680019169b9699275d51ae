@@ -1,0 +1,62 @@
+package TimeCalNotes;
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
+public class Timer 
+{
+	long timerLength;
+	long endTime;
+	long hoursInNano, minsInNano, secsInNano;
+		
+	Scanner scnr = new Scanner(System.in);
+	
+	long hoursComplete = 0;
+	long minsComplete = 0;
+	long secsComplete = 0;
+	
+	public Timer(int length)
+	{
+		timerLength = TimeUnit.SECONDS.toNanos(length);
+	}
+	
+	public void BeginTimer()
+	{
+		long endLength = System.nanoTime() + timerLength;
+		
+		long startTime = System.nanoTime();
+		
+		while (System.nanoTime() < endLength)
+		{			
+			if ((System.nanoTime() - startTime) % 1_000_000_000 == 0)
+			{
+				long time = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - startTime);
+				
+				secsComplete += 1;
+				if (secsComplete >= 60) 
+				{
+					secsComplete = 0;
+				}
+				
+				if (time % 60 == 0)
+				{
+					minsComplete += 1;
+					if (minsComplete >= 60)
+					{
+						minsComplete = 0;
+					}
+				}
+				
+				if (time % 3600 == 0)
+				{
+					hoursComplete += 1;
+				}
+				System.out.println(hoursComplete + " hours and " + minsComplete + " minutes and " + secsComplete + " seconds");
+
+			}
+		}
+		
+		endTime = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - startTime);
+		
+		System.out.println("End Time: " + hoursComplete + " hours and " + minsComplete + " minutes and " + (1 + secsComplete) + " seconds");
+		System.out.println("End Time: " + endTime);
+	}
+}
