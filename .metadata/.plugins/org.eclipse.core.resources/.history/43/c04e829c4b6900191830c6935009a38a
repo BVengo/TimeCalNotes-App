@@ -1,0 +1,63 @@
+package TimeCalNotes;
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
+public class Timer 
+{
+	long timerLength;
+	
+	long time = 0;
+		
+	Scanner scnr = new Scanner(System.in);
+	
+	long hoursComplete = 0;
+	long minsComplete = 0;
+	long secsComplete = 0;
+	
+	long hoursInSecs, minsInSecs, secs;
+	
+	public Timer(long hours, long minutes, long seconds, long length)
+	{
+		timerLength = TimeUnit.SECONDS.toNanos(length);
+		this.hoursInSecs = hours;
+		this.minsInSecs = minutes;
+		this.secs = seconds;
+	}
+	
+	public void BeginTimer()
+	{
+		long endLength = System.nanoTime() + timerLength;
+		
+		long startTime = System.nanoTime();
+		
+		while (System.nanoTime() <= endLength)
+		{			
+			if ((System.nanoTime() - startTime) % 1_000_000_000 == 0)
+			{	
+				time = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - startTime);
+				
+				IncrementTime(1);
+			}
+		}
+		
+		IncrementTime(1);		
+	}
+		
+	public void IncrementTime(long seconds)
+	{
+		secsComplete += 1;
+		if (secsComplete >= 60) 
+		{
+			minsComplete += 1;
+			secsComplete = 0;
+		}
+		
+		if (minsComplete >= 60)
+		{
+			hoursComplete += 1;
+			minsComplete = 0;
+		}
+		
+		System.out.println(hoursInSecs + " hours and " + minsInSecs + " minutes and " + secs + " seconds");
+
+	}
+}

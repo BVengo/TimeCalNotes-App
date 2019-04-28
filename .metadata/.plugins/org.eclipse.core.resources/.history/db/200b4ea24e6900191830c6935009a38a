@@ -1,0 +1,48 @@
+package TimeCalNotes;
+
+import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
+
+public class Main 
+{
+	public static long timerLength;
+	public static long hours, minutes, seconds;
+	public static long hoursInSecs, minsInSecs;
+
+	public static Scanner scnr = new Scanner(System.in);
+	
+	public static void main(String[] args)
+	{
+		CalculateTimerLength();
+		
+		Timer timer = new Timer(hours, minutes, seconds, timerLength);
+		
+		System.out.print("Begin? (y/n)");
+		
+		if (scnr.next().equals("y"))
+		{			
+			System.out.println("Controls: STOP, PAUSE, CONTINUE");
+
+			System.out.println("Start time: 0");
+
+			timer.BeginTimer();
+		}
+		else System.out.println("Cancelled timer");
+	}
+	
+	public static void CalculateTimerLength()
+	{
+		System.out.print("Hours (0-24): ");
+		hours = scnr.nextInt();
+		hoursInSecs = (int) TimeUnit.HOURS.toSeconds(hours);
+		
+		System.out.print("Minutes (0-60): ");
+		minutes = scnr.nextInt();
+		minutes = (int) TimeUnit.MINUTES.toSeconds(minutes);
+		
+		System.out.print("Seconds (0-60): ");
+		seconds = scnr.nextInt();
+		
+		timerLength = hoursInSecs + minsInSecs + seconds;
+	}
+}

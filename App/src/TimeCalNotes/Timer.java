@@ -8,18 +8,22 @@ public class Timer
 	long time = 0;
 		
 	Scanner scnr = new Scanner(System.in);
+
+	long hours, minutes, seconds;
 	
-	long hoursComplete = 0;
-	long minsComplete = 0;
-	long secsComplete = 0;
-	
-	public Timer(long length)
+	public Timer(long hrs, long mins, long secs)
 	{
-		timerLength = TimeUnit.SECONDS.toNanos(length);
+		timerLength = TimeUnit.HOURS.toNanos(hrs) + TimeUnit.MINUTES.toNanos(mins) + TimeUnit.SECONDS.toNanos(secs);
+		
+		hours = hrs;
+		minutes = mins;
+		seconds = secs;
 	}
 	
 	public void BeginTimer()
 	{
+		System.out.println("Start time: " + hours + ":" + minutes + ":" + seconds);
+		
 		long endLength = System.nanoTime() + timerLength;
 		
 		long startTime = System.nanoTime();
@@ -30,32 +34,32 @@ public class Timer
 			{	
 				time = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - startTime);
 				
-				IncrementTime(1);
-				
-				System.out.println(hoursComplete + " hours and " + minsComplete + " minutes and " + secsComplete + " seconds");
-
+				DecrementTime(0, 0, 1);
 			}
 		}
 		
-		IncrementTime(1);
-		
-		System.out.println(hoursComplete + " hours and " + minsComplete + " minutes and " + secsComplete + " seconds");
-		
+		DecrementTime(0, 0, 1);
 	}
-		
-	public void IncrementTime(long seconds)
+	
+	public void DecrementTime(long hrs, long mins, long secs)
 	{
-		secsComplete += 1;
-		if (secsComplete >= 60) 
+		seconds -= secs;
+		minutes -= mins;
+		hours -= hrs;
+		
+		if (seconds < 0) 
 		{
-			minsComplete += 1;
-			secsComplete = 0;
+			minutes -= 1;
+			seconds = 59;
 		}
 		
-		if (minsComplete >= 60)
+		if (minutes < 0)
 		{
-			hoursComplete += 1;
-			minsComplete = 0;
+			hours -= 1;
+			minutes = 59;
 		}
+		
+		System.out.println("Time left - " + hours + ":" + minutes + ":" + seconds);
+		
 	}
 }

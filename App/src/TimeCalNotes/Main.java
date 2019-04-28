@@ -5,8 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 public class Main 
 {
-	public static long timerLength;
-	public static long hoursInSecs, minsInSecs, secs;
+	public static long hours, minutes, seconds;
 
 	public static Scanner scnr = new Scanner(System.in);
 	
@@ -14,15 +13,13 @@ public class Main
 	{
 		CalculateTimerLength();
 		
-		Timer timer = new Timer(timerLength);
+		Timer timer = new Timer(hours, minutes, seconds);
 		
 		System.out.print("Begin? (y/n)");
 		
 		if (scnr.next().equals("y"))
 		{			
 			System.out.println("Controls: STOP, PAUSE, CONTINUE");
-
-			System.out.println("Start time: 0");
 
 			timer.BeginTimer();
 		}
@@ -32,14 +29,12 @@ public class Main
 	public static void CalculateTimerLength()
 	{
 		System.out.print("Hours (0-24): ");
-		hoursInSecs = (int) TimeUnit.HOURS.toSeconds(scnr.nextInt());
+		hours = scnr.nextInt();
 		
 		System.out.print("Minutes (0-60): ");
-		minsInSecs = (int) TimeUnit.MINUTES.toSeconds(scnr.nextInt());
+		minutes = scnr.nextInt();
 		
 		System.out.print("Seconds (0-60): ");
-		secs = scnr.nextInt();
-		
-		timerLength = hoursInSecs + minsInSecs + secs;
+		seconds = scnr.nextInt();
 	}
 }
